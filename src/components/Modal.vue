@@ -73,7 +73,6 @@
             }
         },
         props: {
-            //indexRow: Number,
             dataRow: Array,
             isEdit: Boolean
         },
