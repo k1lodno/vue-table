@@ -22,8 +22,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(row, index) in getRows()">
-                <td v-for="col in columns">{{row[col]}}</td>
+            <tr v-for="(row, index) in getRows()" v-bind:key="index">
+                <td v-for="col in columns" v-bind:key="col">{{row[col]}}</td>
                 <td><button type="button" class="btn" @click="showEditModal(index, row)">EDIT</button>
                     <div class="divider"></div>
                     <button type="button" class="btn" @click="deleteRow(index)">DELETE</button></td>
@@ -34,6 +34,7 @@
         <div class="pagination">
             <div class="number"
                  v-for="i in numPages()"
+                 v-bind:key="i"
                  v-bind:class="[i === currentPage ? 'active' : '']"
                  v-on:click="changePage(i)">{{i}}</div>
         </div>
@@ -43,6 +44,7 @@
 
 <script>
     import Popup from './Modal'
+    import Vue from 'vue'
 
     export default {
         name: "Table",
@@ -80,7 +82,8 @@
             },
             onData(data){
                 if(this.isEditModalVisible){
-                    this.rows[this.tempIndex] = data;
+                    Vue.set(this.rows, this.tempIndex, data)
+                    //this.rows[this.tempIndex] = data;
                 }else {
                     this.rows.push(data);
                 }
